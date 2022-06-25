@@ -5,7 +5,7 @@ import LeftView from "./LeftView";
 const LandingPage = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="flex justify-around">
         <div>
@@ -14,7 +14,7 @@ const LandingPage = () => {
 
         <div className="mr-8">
           <img
-            className="object-cover h-96 w-96"
+            className=" h-96 w-96"
             src="https://res.cloudinary.com/dcbco6i8s/image/upload/v1656142744/pexels-pixabay-276583_wejcw4.jpg"
           />
         </div>
