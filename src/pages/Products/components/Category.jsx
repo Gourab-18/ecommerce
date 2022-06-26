@@ -1,28 +1,34 @@
 import React from "react";
 
-const Category = () => {
+const Category = ({ data, changeData }) => {
+  const categories = [
+    "All",
+    "Office",
+    "Living Room",
+    "Kitchen",
+    "Bedroom",
+    "Dining",
+  ];
   return (
     <div className="flex flex-col">
       <div>
         <h1 className="font-extrabold text-xl ">Category</h1>
       </div>
       <div>
-        <h1 className="text-small mt-2 ">All</h1>
-      </div>
-      <div>
-        <h1 className="text-small mt-2 ">Office</h1>
-      </div>
-      <div>
-        <h1 className="text-small mt-2 ">Living Room</h1>
-      </div>
-      <div>
-        <h1 className="text-small mt-2 ">Kitchen</h1>
-      </div>
-      <div>
-        <h1 className="text-small mt-2 ">Bedroom</h1>
-      </div>
-      <div>
-        <h1 className="text-small mt-2 ">Dining</h1>
+        {categories.map((category, index) => {
+          return (
+            <div key={index}>
+              {/* {console.log(category)} */}
+              <h1
+                className="text-small mt-2 "
+                style={{ cursor: "pointer" }}
+                onClick={() => changeData(category)}
+              >
+                {category}
+              </h1>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

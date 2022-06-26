@@ -6,9 +6,16 @@ const Products = () => {
   const url = "https://course-api.com/react-store-products";
   const [data, setData] = useState([]);
 
+  const [category, setCategory] = useState("all");
+
   const fetchData = async (url) => {
+    var headers = {};
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        method: "GET",
+        mode: "cors",
+        headers: headers,
+      });
 
       let val = await res.json();
       //   val = val.slice(0, 3);
@@ -22,14 +29,29 @@ const Products = () => {
 
   //   console.log("Normal data", data);
 
+  const changeData = (temp) => {
+    temp = temp.toLowerCase();
+    console.log(temp);
+    setCategory(temp);
+  };
+
+  console.log(category);
+
   useEffect(() => {
     fetchData(url);
-  }, []);
+
+    if (category !== "all") {
+      var newData = data.filter((tempData) => tempData.category === category);
+      setData(newData);
+      console.log(newData.length);
+    }
+  }, [category]);
+
   return (
     <>
       <div className="flex mt-12">
         <div>
-          <Sidebar />
+          <Sidebar data={data} changeData={changeData} />
         </div>
 
         <div>
@@ -38,10 +60,22 @@ const Products = () => {
           </div>
           <div className="flex justify-around">
             <div>
-              <h1 className="ml-36">{data && data.length} products found</h1>
+              <h1 className="ml-36">
+                {data && category === "all" ? (
+                  <>{data.length} products found</>
+                ) : (
+                  <>
+                    {
+                      data.filter((tempData) => tempData.category === category)
+                        .length
+                    }{" "}
+                    products found
+                  </>
+                )}
+              </h1>
             </div>
             <div>
-              <label for="price">Sort By</label>
+              <label htmlFor="price">Sort By</label>
 
               <select id="price">
                 <option value="saab">Price (Highest)</option>
@@ -54,14 +88,29 @@ const Products = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-4  ml-36 mt-10">
-            {data &&
-              data.map((val) => {
-                return (
-                  <div key={val.id} className="flex">
-                    <Display val={val} />
-                  </div>
-                );
-              })}
+            {data && category === "all" ? (
+              <>
+                {data.map((val) => {
+                  return (
+                    <div key={val.id} className="flex">
+                      <Display val={val} />
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                {data
+                  .filter((tempData) => tempData.category === category)
+                  .map((val) => {
+                    return (
+                      <div key={val.id} className="flex">
+                        <Display val={val} />
+                      </div>
+                    );
+                  })}
+              </>
+            )}
           </div>
         </div>
       </div>
